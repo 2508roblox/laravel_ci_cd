@@ -95,5 +95,5 @@ jobs:
         ssh-keyscan -p 2018 -H $VPS_HOST >> ~/.ssh/known_hosts
 
         # Deploy code
-          ssh -p 2018 $VPS_USER@$VPS_HOST "cd $DEPLOY_DIR && sudo ./deployer.sh"
+          ssh -p 2018 root@61.14.233.132 "cd $DEPLOY_DIR && sudo ./deployer.sh"
 
