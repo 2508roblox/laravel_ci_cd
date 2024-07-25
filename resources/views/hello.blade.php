@@ -16,6 +16,6 @@
         </style>
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-       Hello
+       Github Actions CI/CD for Laravel Auto Deploy with Deployer.sh update ssh private key
     </body>
 </html>
