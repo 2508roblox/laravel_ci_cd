@@ -9,7 +9,7 @@ on:
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
-
+    environment: ssh
     steps:
     - uses: actions/checkout@v4
       name: Checkout code
@@ -33,44 +33,44 @@ jobs:
 
     - name: Debug environment variables
       run: |
-         echo "DB_HOST=${{ ssh.DB_HOST }}"
-         echo "DB_DATABASE=${{ ssh.DB_DATABASE }}"
-         echo "DB_USERNAME=${{ ssh.DB_USERNAME }}"
-         echo "DB_PASSWORD=${{ ssh.DB_PASSWORD }}"
+         echo "DB_HOST=${{ secrets.DB_HOST }}"
+         echo "DB_DATABASE=${{ secrets.DB_DATABASE }}"
+         echo "DB_USERNAME=${{ secrets.DB_USERNAME }}"
+         echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
 
     - name: Test MySQL Connection
       env:
-        DB_HOST: ${{ ssh.DB_HOST }}
-        DB_USERNAME: ${{ ssh.DB_USERNAME }}
-        DB_PASSWORD: ${{ ssh.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: |
         mysql -h "$DB_HOST" -u "$DB_USERNAME" -p"$DB_PASSWORD" -e "SHOW DATABASES;"
 
     - name: Create MySQL Database
       env:
-        DB_HOST: ${{ ssh.DB_HOST }}
-        DB_DATABASE: ${{ ssh.DB_DATABASE }}
-        DB_USERNAME: ${{ ssh.DB_USERNAME }}
-        DB_PASSWORD: ${{ ssh.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_DATABASE: ${{ secrets.DB_DATABASE }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: |
         mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;"
 
     - name: Run Migrations
       env:
         DB_CONNECTION: mysql
-        DB_HOST: ${{ ssh.DB_HOST }}
-        DB_DATABASE: ${{ ssh.DB_DATABASE }}
-        DB_USERNAME: ${{ ssh.DB_USERNAME }}
-        DB_PASSWORD: ${{ ssh.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_DATABASE: ${{ secrets.DB_DATABASE }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: php artisan migrate --force
 
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
       env:
         DB_CONNECTION: mysql
-        DB_HOST: ${{ ssh.DB_HOST }}
-        DB_DATABASE: ${{ ssh.DB_DATABASE }}
-        DB_USERNAME: ${{ ssh.DB_USERNAME }}
-        DB_PASSWORD: ${{ ssh.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_DATABASE: ${{ secrets.DB_DATABASE }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: php artisan test
 
   deploy:
@@ -83,10 +83,10 @@ jobs:
 
     - name: Deploy to VPS
       env:
-        SSH_PRIVATE_KEY: ${{ ssh.SSH_PRIVATE_KEY }}
-        VPS_USER: ${{ ssh.VPS_USER }}
-        VPS_HOST: ${{ ssh.VPS_HOST }}
-        DEPLOY_DIR: ${{ ssh.DEPLOY_DIR }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        VPS_USER: ${{ secrets.VPS_USER }}
+        VPS_HOST: ${{ secrets.VPS_HOST }}
+        DEPLOY_DIR: ${{ secrets.DEPLOY_DIR }}
       run: |
        # Set up SSH
         mkdir -p ~/.ssh
