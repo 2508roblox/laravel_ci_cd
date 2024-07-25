@@ -38,22 +38,22 @@ jobs:
          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}"
          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
 
-    - name: Test MySQL Connection
-      env:
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_USERNAME: ${{ secrets.DB_USERNAME }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      run: |
-        mysql -h "$DB_HOST" -u "$DB_USERNAME" -p"$DB_PASSWORD" -e "SHOW DATABASES;"
+    # - name: Test MySQL Connection
+    #   env:
+    #     DB_HOST: ${{ secrets.DB_HOST }}
+    #     DB_USERNAME: ${{ secrets.DB_USERNAME }}
+    #     DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+    #   run: |
+    #     mysql -h "$DB_HOST" -u "$DB_USERNAME" -p"$DB_PASSWORD" -e "SHOW DATABASES;"
 
-    - name: Create MySQL Database
-      env:
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_DATABASE: ${{ secrets.DB_DATABASE }}
-        DB_USERNAME: ${{ secrets.DB_USERNAME }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      run: |
-        mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;"
+    # - name: Create MySQL Database
+    #   env:
+    #     DB_HOST: ${{ secrets.DB_HOST }}
+    #     DB_DATABASE: ${{ secrets.DB_DATABASE }}
+    #     DB_USERNAME: ${{ secrets.DB_USERNAME }}
+    #     DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+    #   run: |
+    #     mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;"
 
     - name: Run Migrations
       env:
