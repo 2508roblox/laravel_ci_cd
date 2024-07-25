@@ -21,7 +21,7 @@ else
     cd $APP_DIR
 fi
 
- 
+
 # Cài đặt quyền truy cập cho các thư mục cần thiết
 echo "Setting permissions..."
 sudo chown -R www-data:www-data $APP_DIR/storage
