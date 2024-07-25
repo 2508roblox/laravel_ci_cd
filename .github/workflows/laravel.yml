@@ -76,6 +76,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: laravel-tests
+    environment: ssh # Specify the environment here
     steps:
     - uses: actions/checkout@v4
       name: Checkout code
