@@ -16,6 +16,6 @@
         </style>
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-      Home Page 
+      Home Page 1
     </body>
 </html>
